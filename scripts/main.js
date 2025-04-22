@@ -3,18 +3,26 @@ document.addEventListener('DOMContentLoaded', () => {
     const playButton = document.querySelector('.btn-play');
     const quizContainer = document.getElementById('quiz-container');
     const questionCounter = document.getElementById('question-counter');
+    const logoContainer = document.querySelector('.logo-container');
+    
+    // Ajout des sons
+    const winSound = new Audio('sounds/win.mp3');
+    const loseSound = new Audio('sounds/lose.mp3');
 
     playButton.addEventListener('click', startGame);
 
     async function startGame() {
         quizManager.resetGame();
         playButton.style.display = 'none';
+        logoContainer.style.display = 'none';
         quizContainer.style.display = 'flex';
-        questionCounter.style.display = 'block';
         
-        document.getElementById('quiz-content').style.display = 'none';
-        document.getElementById('question-counter').style.display = 'none';
-        document.getElementById('loading-spinner').style.display = 'block';
+        const quizContent = document.getElementById('quiz-content');
+        const loadingSpinner = document.getElementById('loading-spinner');
+        
+        quizContent.style.display = 'none';
+        questionCounter.style.display = 'none';
+        loadingSpinner.style.display = 'block';
         
         // Chargement initial des questions
         const success = await quizManager.fetchQuestions();
@@ -24,11 +32,19 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
         
-        document.getElementById('loading-spinner').style.display = 'none';
-        document.getElementById('question-counter').style.display = 'block';
-        document.getElementById('quiz-content').style.display = 'flex';
+        loadingSpinner.style.display = 'none';
+        questionCounter.style.display = 'block';
+        quizContent.style.display = 'flex';
         
         loadNewQuestion();
+    }
+
+    function endGame() {
+        quizContainer.style.display = 'none';
+        questionCounter.style.display = 'none';
+        playButton.style.display = 'inline';
+        logoContainer.style.display = 'flex';
+        alert(`Partie terminée ! Votre score : ${quizManager.score}`);
     }
 
     function loadNewQuestion() {
@@ -41,13 +57,6 @@ document.addEventListener('DOMContentLoaded', () => {
         quizManager.questionCount++;
         questionCounter.textContent = `${quizManager.questionCount}/${quizManager.maxQuestions}`;
         displayQuestion(question);
-    }
-
-    function endGame() {
-        quizContainer.style.display = 'none';
-        questionCounter.style.display = 'none';
-        playButton.style.display = 'inline';
-        alert(`Partie terminée ! Votre score : ${quizManager.score}`);
     }
 
     function displayQuestion(question) {
@@ -91,6 +100,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const isCorrect = quizManager.checkAnswer(selectedAnswer);
         document.getElementById('score').textContent = `Score: ${quizManager.score}`;
         
+        // Jouer le son approprié
+        if (isCorrect) {
+            winSound.play();
+        } else {
+            loseSound.play();
+        }
+        
         const feedbackElement = document.createElement('div');
         feedbackElement.textContent = isCorrect ? 'Correct' : 'Incorrect';
         feedbackElement.className = `feedback ${isCorrect ? 'correct' : 'incorrect'}`;
@@ -99,6 +115,6 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => {
             feedbackElement.remove();
             loadNewQuestion();
-        }, isCorrect ? 1000 : 2000); // 2 secondes pour les réponses incorrectes
+        }, isCorrect ? 1000 : 2000);
     }
 });

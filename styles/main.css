@@ -239,3 +239,23 @@ body::before {
 @keyframes spin {
     to { transform: rotate(360deg); }
 }
+
+.logo-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 40px;
+}
+
+.logo {
+    width: 200px;
+    height: 200px;
+    animation: gentleRotate 10s ease-in-out infinite;
+}
+
+@keyframes gentleRotate {
+    0% { transform: rotate(-5deg); }
+    50% { transform: rotate(5deg); }
+    100% { transform: rotate(-5deg); }
+}
