@@ -1,0 +1,21 @@
+{
+    "name": "Quiz Trivia",
+    "short_name": "Trivia",
+    "description": "Test your knowledge with our fun trivia quiz game featuring random questions from various categories",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#FFA500",
+    "theme_color": "#1a237e",
+    "icons": [
+        {
+            "src": "images/icon-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "images/icon-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ]
+}
