@@ -45,6 +45,18 @@ body::before {
     padding: 20px;
     text-align: center;
     position: relative;
+    padding-top: 60px;  /* Ajout d'un padding en haut pour le compteur */
+}
+
+.counter {
+    position: absolute;
+    top: 10px;
+    right: 50%;
+    transform: translateX(50%);
+    font-size: 24px;
+    color: #1a237e;
+    z-index: 2;
+    display: none;
 }
 
 .btn {
@@ -115,7 +127,6 @@ body::before {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 20px;
     position: relative;
     z-index: 2;
 }
@@ -174,4 +185,19 @@ body::before {
     20% { opacity: 1; transform: translate(-50%, -50%) scale(1.1); }
     80% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
     100% { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
+}
+
+#category {
+    font-size: 20px;
+    color: #1a237e;
+    margin-bottom: 10px;
+    display: inline-block;
+    margin-top: -30px;
+    text-transform: uppercase;
+}
+
+#category::first-letter {
+    font-size: 60px;
+    margin-right: 10px;
+    vertical-align: middle;
 }

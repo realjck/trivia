@@ -1,22 +1,49 @@
 document.addEventListener('DOMContentLoaded', () => {
     const quizManager = new QuizManager();
-
-    // Initialisation du jeu
     const playButton = document.querySelector('.btn-play');
+    const quizContainer = document.getElementById('quiz-container');
+    const questionCounter = document.getElementById('question-counter');
+
     playButton.addEventListener('click', startGame);
 
     async function startGame() {
-        await loadNewQuestion();
+        quizManager.resetGame();
+        playButton.style.display = 'none';
+        quizContainer.style.display = 'flex';
+        questionCounter.style.display = 'block';
+        
+        // Chargement initial des questions
+        const success = await quizManager.fetchQuestions();
+        if (!success) {
+            alert('Erreur lors du chargement des questions. Veuillez réessayer.');
+            endGame();
+            return;
+        }
+        
+        loadNewQuestion();
     }
 
-    async function loadNewQuestion() {
-        const question = await quizManager.fetchQuestion();
-        if (question) {
-            displayQuestion(question);
+    function loadNewQuestion() {
+        const question = quizManager.loadNextQuestion();
+        if (!question) {
+            endGame();
+            return;
         }
+
+        quizManager.questionCount++;
+        questionCounter.textContent = `${quizManager.questionCount}/${quizManager.maxQuestions}`;
+        displayQuestion(question);
+    }
+
+    function endGame() {
+        quizContainer.style.display = 'none';
+        questionCounter.style.display = 'none';
+        playButton.style.display = 'block';
+        alert(`Partie terminée ! Votre score : ${quizManager.score}`);
     }
 
     function displayQuestion(question) {
+        document.getElementById('category').textContent = quizManager.getCategoryWithEmoji(question.category);
         document.getElementById('question').textContent = question.question;
         const answersContainer = document.getElementById('answers');
         answersContainer.innerHTML = '';
@@ -39,13 +66,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const isCorrect = quizManager.checkAnswer(selectedAnswer);
         document.getElementById('score').textContent = `Score: ${quizManager.score}`;
         
-        // Ajout de la classe appropriée pour le retour visuel
         const feedbackElement = document.createElement('div');
         feedbackElement.textContent = isCorrect ? 'Correct !' : 'Incorrect !';
         feedbackElement.className = `feedback ${isCorrect ? 'correct' : 'incorrect'}`;
         document.getElementById('quiz-container').appendChild(feedbackElement);
 
-        // Suppression du feedback après 1 seconde
         setTimeout(() => {
             feedbackElement.remove();
             loadNewQuestion();
