@@ -5,7 +5,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const questionCounter = document.getElementById('question-counter');
     const logoContainer = document.querySelector('.logo-container');
     const attributionBox = document.querySelector('.attribution-box');
-    
+    const difficultyIndicator = document.getElementById('difficulty-indicator');
+    const difficultyIcon = difficultyIndicator.querySelector('.difficulty-icon');
+
     // Ajout des sons
     const winSound = new Audio('sounds/win.mp3');
     const loseSound = new Audio('sounds/lose.mp3');
@@ -57,6 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function endGame() {
         quizContainer.style.display = 'none';
         questionCounter.style.display = 'none';
+        difficultyIndicator.style.display = 'none';
         
         const endScreen = document.getElementById('end-screen');
         const finalScore = endScreen.querySelector('.final-score');
@@ -86,6 +89,15 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function displayQuestion(question) {
+        // Mettre à jour l'indicateur de difficulté
+        const difficultyPath = {
+            'easy': 'images/difficulty-easy.svg',
+            'medium': 'images/difficulty-medium.svg',
+            'hard': 'images/difficulty-hard.svg'
+        };
+        
+        difficultyIcon.src = difficultyPath[question.difficulty] || difficultyPath['medium'];
+        difficultyIndicator.style.display = 'block';
         document.getElementById('category').textContent = quizManager.getCategoryWithEmoji(question.category);
         document.getElementById('question').textContent = question.question;
         const answersContainer = document.getElementById('answers');

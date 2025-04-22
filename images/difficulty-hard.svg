@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 256">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: none;
+      }
+
+      .cls-2 {
+        fill: #00afb9;
+      }
+
+      .cls-3 {
+        fill: #fa0;
+      }
+
+      .cls-3, .cls-4, .cls-5 {
+        stroke: #1a237e;
+        stroke-miterlimit: 10;
+        stroke-width: 20px;
+      }
+
+      .cls-4 {
+        fill: #ff4d00;
+      }
+
+      .cls-5 {
+        fill: #ffe600;
+      }
+
+      .cls-6 {
+        clip-path: url(#clippath);
+      }
+    </style>
+    <clipPath id="clippath">
+      <rect class="cls-1" width="512" height="256"/>
+    </clipPath>
+  </defs>
+  <!-- Generator: Adobe Illustrator 28.7.6, SVG Export Plug-In . SVG Version: 1.2.0 Build 188)  -->
+  <g>
+    <g id="Calque_1">
+      <g class="cls-6">
+        <g>
+          <path class="cls-5" d="M497,0c0,133.1-107.9,241-241,241S15,133.1,15,0"/>
+          <path class="cls-3" d="M380.1-206.6c114.1,68.5,151.1,216.6,82.6,330.7-68.5,114.1-216.6,151.1-330.7,82.6"/>
+          <path class="cls-4" d="M138-210.1c116.1-65.2,263-23.9,328.1,92.2,65.2,116.1,23.9,263-92.2,328.1"/>
+        </g>
+        <g>
+          <rect class="cls-2" x="298" y="-72.5" width="25" height="207.7" transform="translate(132.6 287.7) rotate(-61)"/>
+          <path class="cls-2" d="M440.9,103.6c-22.5-3.4-52.1-4.4-73.4.1l28.6-24.9,6-37.4c7.4,20.4,24,45,38.8,62.3Z"/>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>
