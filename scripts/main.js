@@ -42,9 +42,19 @@ document.addEventListener('DOMContentLoaded', () => {
     function endGame() {
         quizContainer.style.display = 'none';
         questionCounter.style.display = 'none';
-        playButton.style.display = 'inline';
-        logoContainer.style.display = 'flex';
-        alert(`Partie terminée ! Votre score : ${quizManager.score}`);
+        logoContainer.style.display = 'none';
+        
+        const endScreen = document.getElementById('end-screen');
+        const finalScore = endScreen.querySelector('.final-score');
+        const replayButton = endScreen.querySelector('.btn-play');
+        
+        finalScore.textContent = quizManager.score;
+        endScreen.style.display = 'flex';
+        
+        replayButton.addEventListener('click', () => {
+            endScreen.style.display = 'none';
+            startGame();
+        });
     }
 
     function loadNewQuestion() {
@@ -98,7 +108,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function handleAnswer(selectedAnswer) {
         const isCorrect = quizManager.checkAnswer(selectedAnswer);
-        document.getElementById('score').textContent = `Score: ${quizManager.score}`;
         
         // Jouer le son approprié
         if (isCorrect) {
