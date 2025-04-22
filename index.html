@@ -6,7 +6,7 @@
     <title>Quiz Trivia</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles/main.css">
 </head>
 <body>
@@ -16,6 +16,10 @@
             <img src="images/logo.svg" alt="Logo Trivia" class="logo">
         </div>
         <button class="btn btn-play">PLAY</button>
+        <div class="attribution-box">
+            <img src="images/opentrivia-logo.png" alt="Open Trivia DB Logo" class="otdb-logo">
+            <p>Questions randomly selected from <a href="https://opentdb.com/" target="_blank">Open Trivia Database</a></p>
+        </div>
         <div id="quiz-container" style="display: none;">
             <div id="loading-spinner" class="spinner"></div>
             <div id="quiz-content">
@@ -28,6 +32,7 @@
             <h1>YOUR SCORE</h1>
             <div class="final-score"></div>
             <button class="btn btn-play">REPLAY</button>
+            <button class="btn btn-back">BACK</button>
         </div>
     </div>
     

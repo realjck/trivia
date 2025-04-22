@@ -4,10 +4,24 @@ document.addEventListener('DOMContentLoaded', () => {
     const quizContainer = document.getElementById('quiz-container');
     const questionCounter = document.getElementById('question-counter');
     const logoContainer = document.querySelector('.logo-container');
+    const attributionBox = document.querySelector('.attribution-box');
     
     // Ajout des sons
     const winSound = new Audio('sounds/win.mp3');
     const loseSound = new Audio('sounds/lose.mp3');
+
+    // Définir les gestionnaires d'événements en dehors pour pouvoir les réutiliser
+    const handleReplay = () => {
+        document.getElementById('end-screen').style.display = 'none';
+        startGame();
+    };
+    
+    const handleBack = () => {
+        document.getElementById('end-screen').style.display = 'none';
+        logoContainer.style.display = 'flex';
+        attributionBox.style.display = 'flex';
+        playButton.style.display = 'inline';
+    };
 
     playButton.addEventListener('click', startGame);
 
@@ -15,6 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
         quizManager.resetGame();
         playButton.style.display = 'none';
         logoContainer.style.display = 'none';
+        attributionBox.style.display = 'none';
         quizContainer.style.display = 'flex';
         
         const quizContent = document.getElementById('quiz-content');
@@ -42,19 +57,20 @@ document.addEventListener('DOMContentLoaded', () => {
     function endGame() {
         quizContainer.style.display = 'none';
         questionCounter.style.display = 'none';
-        logoContainer.style.display = 'none';
         
         const endScreen = document.getElementById('end-screen');
         const finalScore = endScreen.querySelector('.final-score');
         const replayButton = endScreen.querySelector('.btn-play');
+        const backButton = endScreen.querySelector('.btn-back');
         
         finalScore.textContent = quizManager.score;
         endScreen.style.display = 'flex';
         
-        replayButton.addEventListener('click', () => {
-            endScreen.style.display = 'none';
-            startGame();
-        });
+        // Supprimer et réajouter les écouteurs
+        replayButton.removeEventListener('click', handleReplay);
+        backButton.removeEventListener('click', handleBack);
+        replayButton.addEventListener('click', handleReplay);
+        backButton.addEventListener('click', handleBack);
     }
 
     function loadNewQuestion() {

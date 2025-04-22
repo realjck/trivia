@@ -53,7 +53,7 @@ body::before {
     bottom: 20px;
     left: 50%;
     transform: translateX(-50%);
-    font-size: 24px;
+    font-size: 15px;
     color: white;
     background-color: #1a237e;
     padding: 10px 20px;
@@ -260,6 +260,10 @@ body::before {
     100% { transform: rotate(-5deg); }
 }
 
+.btn-back {
+    background-color: #1a237e;
+}
+
 #end-screen {
     display: flex;
     flex-direction: column;
@@ -271,13 +275,47 @@ body::before {
 
 #end-screen h1 {
     color: #1a237e;
-    font-size: 36px;
+    font-size: 30px;
     text-transform: uppercase;
 }
 
 .final-score {
     font-size: 72px;
-    color: #FF5722;
+    color: #1a237e;
     font-weight: bold;
-    text-shadow: 4px 4px 0px #1a237e;
+}
+
+
+.attribution-box {
+    background-color: #383e4e;
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 20px;
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.attribution-box img.otdb-logo {
+    width: 87px;
+    height: 40px;
+}
+
+.attribution-box p {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+.attribution-box a {
+    color: #FFA500;
+    text-decoration: none;
+}
+
+.attribution-box a:hover {
+    text-decoration: underline;
 }
