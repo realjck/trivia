@@ -12,6 +12,10 @@ document.addEventListener('DOMContentLoaded', () => {
         quizContainer.style.display = 'flex';
         questionCounter.style.display = 'block';
         
+        document.getElementById('quiz-content').style.display = 'none';
+        document.getElementById('question-counter').style.display = 'none';
+        document.getElementById('loading-spinner').style.display = 'block';
+        
         // Chargement initial des questions
         const success = await quizManager.fetchQuestions();
         if (!success) {
@@ -19,6 +23,10 @@ document.addEventListener('DOMContentLoaded', () => {
             endGame();
             return;
         }
+        
+        document.getElementById('loading-spinner').style.display = 'none';
+        document.getElementById('question-counter').style.display = 'block';
+        document.getElementById('quiz-content').style.display = 'flex';
         
         loadNewQuestion();
     }
@@ -38,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function endGame() {
         quizContainer.style.display = 'none';
         questionCounter.style.display = 'none';
-        playButton.style.display = 'block';
+        playButton.style.display = 'inline';
         alert(`Partie terminée ! Votre score : ${quizManager.score}`);
     }
 
