@@ -57,7 +57,24 @@ document.addEventListener('DOMContentLoaded', () => {
             const button = document.createElement('button');
             button.textContent = answer;
             button.className = 'btn';
-            button.onclick = () => handleAnswer(answer);
+            button.onclick = () => {
+                // Désactiver tous les boutons immédiatement après un clic
+                const allButtons = answersContainer.querySelectorAll('button');
+                allButtons.forEach(btn => {
+                    btn.disabled = true;
+                    if (btn.textContent === answer && answer === question.correct_answer) {
+                        // Si c'est la bonne réponse, on met en vert
+                        btn.style.backgroundColor = '#4CAF50';
+                    } else if (btn.textContent === answer) {
+                        // Si c'est la mauvaise réponse cliquée, on met en rouge
+                        btn.style.backgroundColor = '#f44336';
+                    } else if (btn.textContent === question.correct_answer) {
+                        // On montre la bonne réponse en vert
+                        btn.style.backgroundColor = '#4CAF50';
+                    }
+                });
+                handleAnswer(answer);
+            };
             answersContainer.appendChild(button);
         });
     }
@@ -67,13 +84,13 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('score').textContent = `Score: ${quizManager.score}`;
         
         const feedbackElement = document.createElement('div');
-        feedbackElement.textContent = isCorrect ? 'Correct !' : 'Incorrect !';
+        feedbackElement.textContent = isCorrect ? 'Correct' : 'Incorrect';
         feedbackElement.className = `feedback ${isCorrect ? 'correct' : 'incorrect'}`;
         document.getElementById('quiz-container').appendChild(feedbackElement);
 
         setTimeout(() => {
             feedbackElement.remove();
             loadNewQuestion();
-        }, 1000);
+        }, isCorrect ? 1000 : 2000); // 2 secondes pour les réponses incorrectes
     }
 });
