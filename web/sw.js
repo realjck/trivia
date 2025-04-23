@@ -1,3 +1,6 @@
+self.registration.unregister();
+
+/*
 const CACHE_NAME = 'trivia-v1';
 const ASSETS_TO_CACHE = [
     './',
@@ -51,3 +54,4 @@ self.addEventListener('fetch', (event) => {
             })
     );
 });
+*/

@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const attributionBox = document.querySelector('.attribution-box');
     const difficultyIndicator = document.getElementById('difficulty-indicator');
     const difficultyIcon = difficultyIndicator.querySelector('.difficulty-icon');
+    const helperButtons = document.getElementById('helper-buttons');
 
     // Ajout des sons
     const winSound = new Audio('sounds/win.mp3');
@@ -52,6 +53,14 @@ document.addEventListener('DOMContentLoaded', () => {
         loadingSpinner.style.display = 'none';
         questionCounter.style.display = 'block';
         quizContent.style.display = 'flex';
+
+        // Réinitialiser les boutons d'aide
+        helperButtons.innerHTML = `
+            <button class="helper-btn">/2</button>
+            <button class="helper-btn">/2</button>
+            <button class="helper-btn">/2</button>
+        `;
+        helperButtons.style.display = 'flex';
         
         loadNewQuestion();
     }
@@ -60,6 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
         quizContainer.style.display = 'none';
         questionCounter.style.display = 'none';
         difficultyIndicator.style.display = 'none';
+        helperButtons.style.display = 'none'; // Cacher les boutons d'aide
         
         const endScreen = document.getElementById('end-screen');
         const finalScore = endScreen.querySelector('.final-score');
@@ -107,6 +117,43 @@ document.addEventListener('DOMContentLoaded', () => {
             ...question.incorrect_answers,
             question.correct_answer
         ].sort(() => Math.random() - 0.5);
+
+        // Ajouter les gestionnaires d'événements pour les boutons d'aide
+        const helperButtons = document.querySelectorAll('.helper-btn');
+        
+        // Réactiver tous les boutons d'aide restants
+        helperButtons.forEach(btn => {
+            btn.disabled = false;
+        });
+
+        helperButtons.forEach(button => {
+            button.onclick = () => {
+                // Désactiver tous les boutons d'aide
+                helperButtons.forEach(btn => {
+                    btn.disabled = true;
+                });
+                
+                // Supprimer uniquement le bouton cliqué
+                button.remove();
+
+                // Trouver les mauvaises réponses
+                const incorrectAnswers = answers.filter(answer => answer !== question.correct_answer);
+                
+                // Sélectionner aléatoirement deux mauvaises réponses à masquer
+                const answersToHide = incorrectAnswers
+                    .sort(() => Math.random() - 0.5)
+                    .slice(0, 2);
+
+                // Masquer les réponses sélectionnées
+                const answerButtons = answersContainer.querySelectorAll('button');
+                answerButtons.forEach(btn => {
+                    if (answersToHide.includes(btn.textContent)) {
+                        btn.style.opacity = '0';
+                        btn.disabled = true;
+                    }
+                });
+            };
+        });
 
         answers.forEach((answer) => {
             const button = document.createElement('button');
