@@ -126,10 +126,28 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const endScreen = document.getElementById('end-screen');
         const finalScore = endScreen.querySelector('.final-score');
+        const scoreComment = document.getElementById('score-comment');
         const replayButton = endScreen.querySelector('.btn-play');
         const backButton = endScreen.querySelector('.btn-back');
 
-        finalScore.textContent = quizManager.score;
+        const score = quizManager.score;
+        finalScore.textContent = score;
+
+        // Définir le commentaire en fonction du score
+        if (score >= 100) {
+            scoreComment.textContent = "🏆 PERFECT !";
+            scoreComment.style.color = "#4CAF50";
+        } else if (score >= 70) {
+            scoreComment.textContent = "🌟 EXCELLENT !";
+            scoreComment.style.color = "#4CAF50";
+        } else if (score >= 50) {
+            scoreComment.textContent = "👍 WELL DONE !";
+            scoreComment.style.color = "#FF9800";
+        } else {
+            scoreComment.textContent = "😅 KEEP TRYING !";
+            scoreComment.style.color = "#f44336";
+        }
+
         endScreen.style.display = 'flex';
 
         // Supprimer et réajouter les écouteurs
