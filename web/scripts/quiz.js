@@ -40,9 +40,10 @@ class QuizManager {
         return `${emoji} ${decodedCategory}`;
     }
 
-    async fetchQuestions() {
+    async fetchQuestions(categoryId = '') {
         try {
-            const response = await fetch('https://opentdb.com/api.php?amount=10&type=multiple');
+            const categoryParam = categoryId ? `&category=${categoryId}` : '';
+            const response = await fetch(`https://opentdb.com/api.php?amount=10&type=multiple${categoryParam}`);
             const data = await response.json();
             this.questions = data.results.map(question => ({
                 ...question,
@@ -92,12 +93,12 @@ class QuizManager {
     displayButtons(answers) {
         const answersContainer = document.getElementById('answers');
         answersContainer.innerHTML = '';
-        
+
         answers.forEach((answer) => {
             const button = document.createElement('button');
             button.textContent = answer;
             button.className = 'btn';
-            
+
             if (answer === 'TRUE') {
                 button.classList.add('btn-true');
             } else if (answer === 'FALSE') {
@@ -105,7 +106,7 @@ class QuizManager {
             } else {
                 button.classList.add('btn-play');
             }
-            
+
             answersContainer.appendChild(button);
         });
     }

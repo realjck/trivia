@@ -8,15 +8,20 @@ document.addEventListener('DOMContentLoaded', () => {
     const difficultyIndicator = document.getElementById('difficulty-indicator');
     const difficultyText = difficultyIndicator.querySelector('.difficulty-text');
     const helperButtons = document.getElementById('helper-buttons');
+    const categorySelection = document.getElementById('category-selection');
+    const categorySelect = document.getElementById('category-select');
+    const confirmCategoryBtn = document.getElementById('confirm-category-btn');
 
     // Ajout des sons
     const winSound = new Audio('sounds/win.mp3');
     const loseSound = new Audio('sounds/lose.mp3');
 
+    let lastCategoryId = '';
+
     // Définir les gestionnaires d'événements en dehors pour pouvoir les réutiliser
     const handleReplay = () => {
         document.getElementById('end-screen').style.display = 'none';
-        startGame();
+        startGame(lastCategoryId);
     };
 
     const handleBack = () => {
@@ -26,7 +31,16 @@ document.addEventListener('DOMContentLoaded', () => {
         playButton.style.display = 'inline';
     };
 
-    playButton.addEventListener('click', startGame);
+    playButton.addEventListener('click', () => {
+        playButton.style.display = 'none';
+        attributionBox.style.display = 'none';
+        categorySelection.style.display = 'flex';
+    });
+
+    confirmCategoryBtn.addEventListener('click', () => {
+        const selectedCategory = categorySelect.value;
+        startGame(selectedCategory);
+    });
 
     // Navbar Logic
     const navHome = document.getElementById('nav-home');
@@ -41,6 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
         questionCounter.style.display = 'none';
         difficultyIndicator.style.display = 'none';
         helperButtons.style.display = 'none';
+        categorySelection.style.display = 'none';
 
         logoContainer.style.display = 'flex';
         attributionBox.style.display = 'flex';
@@ -66,11 +81,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    async function startGame() {
+    async function startGame(categoryId = '') {
+        lastCategoryId = categoryId;
         quizManager.resetGame();
-        playButton.style.display = 'none';
+        categorySelection.style.display = 'none';
         logoContainer.style.display = 'none';
-        attributionBox.style.display = 'none';
         quizContainer.style.display = 'flex';
 
         const quizContent = document.getElementById('quiz-content');
@@ -81,7 +96,7 @@ document.addEventListener('DOMContentLoaded', () => {
         loadingSpinner.style.display = 'block';
 
         // Chargement initial des questions
-        const success = await quizManager.fetchQuestions();
+        const success = await quizManager.fetchQuestions(categoryId);
         if (!success) {
             alert('Erreur lors du chargement des questions. Veuillez réessayer.');
             endGame();
