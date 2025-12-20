@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     const quizManager = new QuizManager();
-    const playButton = document.querySelector('.btn-play');
+    const playButton = document.getElementById('start-btn');
     const quizContainer = document.getElementById('quiz-container');
     const questionCounter = document.getElementById('question-counter');
     const logoContainer = document.querySelector('.logo-container');
@@ -27,6 +27,44 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     playButton.addEventListener('click', startGame);
+
+    // Navbar Logic
+    const navHome = document.getElementById('nav-home');
+    const navAbout = document.getElementById('nav-about');
+    const aboutModal = document.getElementById('about-modal');
+    const closeModalElements = document.querySelectorAll('.close-modal, .close-modal-btn');
+
+    navHome.addEventListener('click', () => {
+        // Reset and go back to home screen
+        document.getElementById('end-screen').style.display = 'none';
+        quizContainer.style.display = 'none';
+        questionCounter.style.display = 'none';
+        difficultyIndicator.style.display = 'none';
+        helperButtons.style.display = 'none';
+
+        logoContainer.style.display = 'flex';
+        attributionBox.style.display = 'flex';
+        playButton.style.display = 'inline';
+
+        quizManager.resetGame();
+    });
+
+    navAbout.addEventListener('click', () => {
+        aboutModal.classList.add('show');
+    });
+
+    closeModalElements.forEach(el => {
+        el.addEventListener('click', () => {
+            aboutModal.classList.remove('show');
+        });
+    });
+
+    // Close modal when clicking outside
+    window.addEventListener('click', (event) => {
+        if (event.target === aboutModal) {
+            aboutModal.classList.remove('show');
+        }
+    });
 
     async function startGame() {
         quizManager.resetGame();
