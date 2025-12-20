@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('end-screen').style.display = 'none';
         startGame();
     };
-    
+
     const handleBack = () => {
         document.getElementById('end-screen').style.display = 'none';
         logoContainer.style.display = 'flex';
@@ -34,14 +34,14 @@ document.addEventListener('DOMContentLoaded', () => {
         logoContainer.style.display = 'none';
         attributionBox.style.display = 'none';
         quizContainer.style.display = 'flex';
-        
+
         const quizContent = document.getElementById('quiz-content');
         const loadingSpinner = document.getElementById('loading-spinner');
-        
+
         quizContent.style.display = 'none';
         questionCounter.style.display = 'none';
         loadingSpinner.style.display = 'block';
-        
+
         // Chargement initial des questions
         const success = await quizManager.fetchQuestions();
         if (!success) {
@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
             endGame();
             return;
         }
-        
+
         loadingSpinner.style.display = 'none';
         questionCounter.style.display = 'block';
         quizContent.style.display = 'flex';
@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <button class="helper-btn">/2</button>
         `;
         helperButtons.style.display = 'flex';
-        
+
         loadNewQuestion();
     }
 
@@ -70,15 +70,15 @@ document.addEventListener('DOMContentLoaded', () => {
         questionCounter.style.display = 'none';
         difficultyIndicator.style.display = 'none';
         helperButtons.style.display = 'none'; // Cacher les boutons d'aide
-        
+
         const endScreen = document.getElementById('end-screen');
         const finalScore = endScreen.querySelector('.final-score');
         const replayButton = endScreen.querySelector('.btn-play');
         const backButton = endScreen.querySelector('.btn-back');
-        
+
         finalScore.textContent = quizManager.score;
         endScreen.style.display = 'flex';
-        
+
         // Supprimer et réajouter les écouteurs
         replayButton.removeEventListener('click', handleReplay);
         backButton.removeEventListener('click', handleBack);
@@ -105,14 +105,14 @@ document.addEventListener('DOMContentLoaded', () => {
             'medium': 'images/difficulty-medium.svg',
             'hard': 'images/difficulty-hard.svg'
         };
-        
+
         difficultyIcon.src = difficultyPath[question.difficulty] || difficultyPath['medium'];
         difficultyIndicator.style.display = 'block';
         document.getElementById('category').textContent = quizManager.getCategoryWithEmoji(question.category);
         document.getElementById('question').textContent = question.question;
         const answersContainer = document.getElementById('answers');
         answersContainer.innerHTML = '';
-        
+
         const answers = [
             ...question.incorrect_answers,
             question.correct_answer
@@ -120,7 +120,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Ajouter les gestionnaires d'événements pour les boutons d'aide
         const helperButtons = document.querySelectorAll('.helper-btn');
-        
+
         // Réactiver tous les boutons d'aide restants
         helperButtons.forEach(btn => {
             btn.disabled = false;
@@ -132,22 +132,24 @@ document.addEventListener('DOMContentLoaded', () => {
                 helperButtons.forEach(btn => {
                     btn.disabled = true;
                 });
-                
+
                 // Supprimer uniquement le bouton cliqué
                 button.remove();
 
                 // Trouver les mauvaises réponses
                 const incorrectAnswers = answers.filter(answer => answer !== question.correct_answer);
-                
+
                 // Sélectionner aléatoirement deux mauvaises réponses à masquer
-                const answersToHide = incorrectAnswers
-                    .sort(() => Math.random() - 0.5)
-                    .slice(0, 2);
+                const answersToHide = new Set(
+                    incorrectAnswers
+                        .toSorted(() => Math.random() - 0.5)
+                        .slice(0, 2)
+                );
 
                 // Masquer les réponses sélectionnées
                 const answerButtons = answersContainer.querySelectorAll('button');
                 answerButtons.forEach(btn => {
-                    if (answersToHide.includes(btn.textContent)) {
+                    if (answersToHide.has(btn.textContent)) {
                         btn.style.opacity = '0';
                         btn.disabled = true;
                     }
@@ -183,14 +185,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function handleAnswer(selectedAnswer) {
         const isCorrect = quizManager.checkAnswer(selectedAnswer);
-        
+
         // Jouer le son approprié
         if (isCorrect) {
             winSound.play();
         } else {
             loseSound.play();
         }
-        
+
         const feedbackElement = document.createElement('div');
         feedbackElement.textContent = isCorrect ? 'Correct' : 'Incorrect';
         feedbackElement.className = `feedback ${isCorrect ? 'correct' : 'incorrect'}`;
