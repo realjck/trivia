@@ -337,15 +337,48 @@ body::before {
 
 .difficulty-indicator {
     position: fixed;
-    top: 0px;
-    left: 50%;
-    transform: translateX(-50%);
+    top: 75px;
+    left: 20px;
     display: none;
+    padding: 5px 12px;
+    border-radius: 8px;
+    border: 3px solid #1a237e;
+    background: white;
+    z-index: 1000;
 }
 
-.difficulty-icon {
-    width: 100px;
-    height: 50px;
+.difficulty-text {
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    color: #1a237e;
+}
+
+.difficulty-easy {
+    background-color: rgba(255, 255, 255, 0.6);
+    border-color: #4CAF50;
+}
+
+.difficulty-easy .difficulty-text {
+    color: #2e7d32;
+}
+
+.difficulty-medium {
+    background-color: rgba(255, 255, 255, 0.6);
+    border-color: #FF9800;
+}
+
+.difficulty-medium .difficulty-text {
+    color: #e65100;
+}
+
+.difficulty-hard {
+    background-color: rgba(255, 255, 255, 0.6);
+    border-color: #f44336;
+}
+
+.difficulty-hard .difficulty-text {
+    color: #c62828;
 }
 
 .helper-buttons {
@@ -512,10 +545,7 @@ body::before {
     /* Increase padding to avoid overlap with navbar */
 }
 
-.difficulty-indicator {
-    top: 60px;
-    /* Adjust to be below navbar */
-}
+/* Difficulty position handled in main class */
 
 .helper-buttons {
     top: 75px;
