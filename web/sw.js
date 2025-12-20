@@ -1,6 +1,6 @@
-self.registration.unregister();
+// self.registration.unregister();
 
-/*
+
 const CACHE_NAME = 'trivia-v1';
 const ASSETS_TO_CACHE = [
     './',
@@ -10,9 +10,6 @@ const ASSETS_TO_CACHE = [
     './scripts/quiz.js',
     './images/logo.svg',
     './images/favicon.ico',
-    './images/difficulty-easy.svg',
-    './images/difficulty-medium.svg',
-    './images/difficulty-hard.svg',
     './images/opentrivia-logo.png',
     './images/icon-192x192.png',
     './images/icon-512x512.png',
@@ -54,4 +51,3 @@ self.addEventListener('fetch', (event) => {
             })
     );
 });
-*/

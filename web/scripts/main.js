@@ -135,17 +135,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Définir le commentaire en fonction du score
         if (score >= 100) {
-            scoreComment.textContent = "🏆 PERFECT !";
+            scoreComment.textContent = "🏆 PERFECT! 🏆";
             scoreComment.style.color = "#4CAF50";
         } else if (score >= 70) {
-            scoreComment.textContent = "🌟 EXCELLENT !";
-            scoreComment.style.color = "#4CAF50";
+            scoreComment.textContent = "EXCELLENT!";
+            scoreComment.style.color = "#0fa256";
         } else if (score >= 50) {
-            scoreComment.textContent = "👍 WELL DONE !";
-            scoreComment.style.color = "#FF9800";
+            scoreComment.textContent = "WELL DONE!";
+            scoreComment.style.color = "#ff6400";
         } else {
-            scoreComment.textContent = "😅 KEEP TRYING !";
-            scoreComment.style.color = "#f44336";
+            scoreComment.textContent = "KEEP TRYING!";
+            scoreComment.style.color = "#c62828";
         }
 
         endScreen.style.display = 'flex';
