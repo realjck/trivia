@@ -1,7 +1,5 @@
-// self.registration.unregister();
-
-
-const CACHE_NAME = 'trivia-v1';
+// Incrémenter la version à chaque déploiement pour purger les anciens caches.
+const CACHE_NAME = 'trivia-v2';
 const ASSETS_TO_CACHE = [
     './',
     './index.html',
@@ -22,32 +20,44 @@ self.addEventListener('install', (event) => {
     event.waitUntil(
         caches.open(CACHE_NAME)
             .then(cache => cache.addAll(ASSETS_TO_CACHE))
+            .then(() => self.skipWaiting())
     );
 });
 
-self.addEventListener('fetch', (event) => {
-    event.respondWith(
-        caches.match(event.request)
-            .then(response => {
-                if (response) {
-                    return response;
-                }
-                return fetch(event.request).then(response => {
-                    // Vérifier si nous avons reçu une réponse valide
-                    if (!response || response.status !== 200 || response.type !== 'basic') {
-                        return response;
-                    }
-
-                    // Cloner la réponse car elle ne peut être utilisée qu'une fois
-                    const responseToCache = response.clone();
-
-                    caches.open(CACHE_NAME)
-                        .then(cache => {
-                            cache.put(event.request, responseToCache);
-                        });
-
-                    return response;
-                });
-            })
+self.addEventListener('activate', (event) => {
+    event.waitUntil(
+        caches.keys()
+            .then(keys => Promise.all(
+                keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key))
+            ))
+            .then(() => self.clients.claim())
     );
+});
+
+// Réseau d'abord : on sert toujours la version la plus récente,
+// le cache ne sert que de secours hors ligne.
+async function networkFirst(request) {
+    const cache = await caches.open(CACHE_NAME);
+    try {
+        const response = await fetch(request);
+        if (response.ok) {
+            cache.put(request, response.clone());
+        }
+        return response;
+    } catch (err) {
+        const cached = await cache.match(request);
+        if (cached) {
+            return cached;
+        }
+        throw err;
+    }
+}
+
+self.addEventListener('fetch', (event) => {
+    const { request } = event;
+    // Les appels à l'API (cross-origin) et les requêtes non-GET passent directement au réseau.
+    if (request.method !== 'GET' || new URL(request.url).origin !== self.location.origin) {
+        return;
+    }
+    event.respondWith(networkFirst(request));
 });
