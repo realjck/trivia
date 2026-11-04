@@ -250,13 +250,13 @@ document.addEventListener('DOMContentLoaded', () => {
                     btn.disabled = true;
                     if (btn.textContent === answer && answer === question.correct_answer) {
                         // Si c'est la bonne réponse, on met en vert
-                        btn.style.backgroundColor = '#4CAF50';
+                        btn.classList.add('btn-true');
                     } else if (btn.textContent === answer) {
                         // Si c'est la mauvaise réponse cliquée, on met en rouge
-                        btn.style.backgroundColor = '#f44336';
+                        btn.classList.add('btn-false');
                     } else if (btn.textContent === question.correct_answer) {
                         // On montre la bonne réponse en vert
-                        btn.style.backgroundColor = '#4CAF50';
+                        btn.classList.add('btn-true');
                     }
                 });
                 handleAnswer(answer);
