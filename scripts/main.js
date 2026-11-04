@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const categorySelection = document.getElementById('category-selection');
     const categorySelect = document.getElementById('category-select');
     const confirmCategoryBtn = document.getElementById('confirm-category-btn');
+    const loadError = document.getElementById('load-error');
 
     // Ajout des sons
     const winSound = new Audio('sounds/win.mp3');
@@ -56,6 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
         difficultyIndicator.style.display = 'none';
         helperButtons.style.display = 'none';
         categorySelection.style.display = 'none';
+        loadError.textContent = '';
 
         logoContainer.style.display = 'flex';
         attributionBox.style.display = 'flex';
@@ -81,7 +83,22 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    const loadErrorMessages = {
+        'offline': 'You are offline. Connect to the internet to play.',
+        'rate-limited': 'Too many requests. Wait a few seconds and try again.',
+        'error': 'Could not load questions. Please try again.'
+    };
+
+    // Revient au choix du thème en affichant la raison de l'échec.
+    function showLoadError(status) {
+        quizContainer.style.display = 'none';
+        logoContainer.style.display = 'flex';
+        categorySelection.style.display = 'flex';
+        loadError.textContent = loadErrorMessages[status];
+    }
+
     async function startGame(categoryId = '') {
+        loadError.textContent = '';
         lastCategoryId = categoryId;
         quizManager.resetGame();
         categorySelection.style.display = 'none';
@@ -96,10 +113,9 @@ document.addEventListener('DOMContentLoaded', () => {
         loadingSpinner.style.display = 'block';
 
         // Chargement initial des questions
-        const success = await quizManager.fetchQuestions(categoryId);
-        if (!success) {
-            alert('Erreur lors du chargement des questions. Veuillez réessayer.');
-            endGame();
+        const status = await quizManager.fetchQuestions(categoryId);
+        if (status !== 'ok') {
+            showLoadError(status);
             return;
         }
 

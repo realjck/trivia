@@ -687,3 +687,19 @@ body::before {
     gap: 10px;
     z-index: 1000;
 }
+.load-error {
+    max-width: 400px;
+    padding: 10px 15px;
+    border-radius: 10px;
+    background-color: #f44336;
+    color: #ffffff;
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    text-align: center;
+}
+
+/* Reste dans le DOM pour que role="alert" annonce le message aux lecteurs d'écran */
+.load-error:empty {
+    padding: 0;
+    margin-top: -20px; /* annule le gap du conteneur flex */
+}

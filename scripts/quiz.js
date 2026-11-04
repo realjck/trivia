@@ -40,11 +40,25 @@ class QuizManager {
         return `${emoji} ${decodedCategory}`;
     }
 
+    /**
+     * Charge les questions depuis Open Trivia DB.
+     * @returns {Promise<'ok'|'offline'|'rate-limited'|'error'>}
+     */
     async fetchQuestions(categoryId = '') {
+        if (!navigator.onLine) {
+            return 'offline';
+        }
         try {
             const categoryParam = categoryId ? `&category=${categoryId}` : '';
             const response = await fetch(`https://opentdb.com/api.php?amount=10&type=multiple${categoryParam}`);
             const data = await response.json();
+            // L'API renvoie le code 5 si on dépasse une requête toutes les 5 secondes.
+            if (data.response_code === 5) {
+                return 'rate-limited';
+            }
+            if (data.response_code !== 0 || data.results.length < this.maxQuestions) {
+                return 'error';
+            }
             this.questions = data.results.map(question => ({
                 ...question,
                 question: this.decodeHtmlEntities(question.question),
@@ -54,10 +68,10 @@ class QuizManager {
                     answer => this.decodeHtmlEntities(answer)
                 )
             }));
-            return true;
+            return 'ok';
         } catch (error) {
             console.error('Erreur lors de la récupération des questions:', error);
-            return false;
+            return navigator.onLine ? 'error' : 'offline';
         }
     }
 
