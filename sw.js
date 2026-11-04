@@ -1,5 +1,5 @@
 // Incrémenter la version à chaque déploiement pour purger les anciens caches.
-const CACHE_NAME = 'trivia-v2';
+const CACHE_NAME = 'trivia-v3';
 const ASSETS_TO_CACHE = [
     './',
     './index.html',
@@ -11,6 +11,11 @@ const ASSETS_TO_CACHE = [
     './images/opentrivia-logo.png',
     './images/icon-192x192.png',
     './images/icon-512x512.png',
+    './images/icon-maskable-192x192.png',
+    './images/icon-maskable-512x512.png',
+    './images/apple-touch-icon.png',
+    './fonts/inter-800-latin.woff2',
+    './fonts/inter-800-latin-ext.woff2',
     './sounds/win.mp3',
     './sounds/lose.mp3',
     './manifest.json'

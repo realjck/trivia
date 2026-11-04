@@ -34,5 +34,21 @@
             "type": "image/png",
             "purpose": "maskable"
         }
+    ],
+    "screenshots": [
+        {
+            "src": "images/screenshots/wide.webp",
+            "sizes": "1268x677",
+            "type": "image/webp",
+            "form_factor": "wide",
+            "label": "A trivia question with four possible answers"
+        },
+        {
+            "src": "images/screenshots/narrow.webp",
+            "sizes": "491x705",
+            "type": "image/webp",
+            "form_factor": "narrow",
+            "label": "A trivia question on a phone"
+        }
     ]
 }
