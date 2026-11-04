@@ -1,5 +1,5 @@
 // Incrémenter la version à chaque déploiement pour purger les anciens caches.
-const CACHE_NAME = 'trivia-v3';
+const CACHE_NAME = 'trivia-v4';
 const ASSETS_TO_CACHE = [
     './',
     './index.html',
@@ -45,7 +45,8 @@ async function networkFirst(request) {
     const cache = await caches.open(CACHE_NAME);
     try {
         const response = await fetch(request);
-        if (response.ok) {
+        // Les médias sont demandés par plages (206) : seul un 200 complet peut aller en cache.
+        if (response.status === 200) {
             cache.put(request, response.clone());
         }
         return response;
